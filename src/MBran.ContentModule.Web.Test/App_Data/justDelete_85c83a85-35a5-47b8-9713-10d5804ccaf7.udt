@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentType Folders="Pages">
+  <Info>
+    <Name>Generic Page</Name>
+    <Alias>genericPage</Alias>
+    <Icon>icon-page-add color-orange</Icon>
+    <Thumbnail>folder.png</Thumbnail>
+    <Description />
+    <AllowAtRoot>False</AllowAtRoot>
+    <IsListView>False</IsListView>
+    <Compositions>
+      <Composition>hasComponents</Composition>
+      <Composition>hasMetaHeader</Composition>
+      <Composition>hasTextAndMedia</Composition>
+    </Compositions>
+    <AllowedTemplates>
+      <Template>GenericPage</Template>
+    </AllowedTemplates>
+    <DefaultTemplate>GenericPage</DefaultTemplate>
+  </Info>
+  <Structure />
+  <GenericProperties />
+  <Tabs />
+</DocumentType>
