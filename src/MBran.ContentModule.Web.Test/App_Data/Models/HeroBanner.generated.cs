@@ -20,16 +20,16 @@ using Umbraco.ModelsBuilder.Umbraco;
 
 namespace Umbraco.Web.PublishedContentModels
 {
-	/// <summary>Home</summary>
-	[PublishedContentModel("home")]
-	public partial class Home : PublishedContentModel, IHasModules, IHasTextAndMedia
+	/// <summary>Hero Banner</summary>
+	[PublishedContentModel("heroBanner")]
+	public partial class HeroBanner : PublishedContentModel, IHasSingleLink, IHasTextAndMedia
 	{
 #pragma warning disable 0109 // new is redundant
-		public new const string ModelTypeAlias = "home";
+		public new const string ModelTypeAlias = "heroBanner";
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 #pragma warning restore 0109
 
-		public Home(IPublishedContent content)
+		public HeroBanner(IPublishedContent content)
 			: base(content)
 		{ }
 
@@ -40,18 +40,18 @@ namespace Umbraco.Web.PublishedContentModels
 		}
 #pragma warning restore 0109
 
-		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Home, TValue>> selector)
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<HeroBanner, TValue>> selector)
 		{
 			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 		}
 
 		///<summary>
-		/// Content Modules
+		/// Link To
 		///</summary>
-		[ImplementPropertyType("modules")]
-		public IEnumerable<IPublishedContent> Modules
+		[ImplementPropertyType("link")]
+		public RJP.MultiUrlPicker.Models.Link Link
 		{
-			get { return Umbraco.Web.PublishedContentModels.HasModules.GetModules(this); }
+			get { return Umbraco.Web.PublishedContentModels.HasSingleLink.GetLink(this); }
 		}
 
 		///<summary>

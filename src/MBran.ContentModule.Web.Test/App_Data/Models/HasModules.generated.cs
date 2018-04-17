@@ -20,16 +20,24 @@ using Umbraco.ModelsBuilder.Umbraco;
 
 namespace Umbraco.Web.PublishedContentModels
 {
-	/// <summary>Home</summary>
-	[PublishedContentModel("home")]
-	public partial class Home : PublishedContentModel, IHasModules, IHasTextAndMedia
+	// Mixin content Type 1133 with alias "hasModules"
+	/// <summary>_HasModules</summary>
+	public partial interface IHasModules : IPublishedContent
+	{
+		/// <summary>Content Modules</summary>
+		IEnumerable<IPublishedContent> Modules { get; }
+	}
+
+	/// <summary>_HasModules</summary>
+	[PublishedContentModel("hasModules")]
+	public partial class HasModules : PublishedContentModel, IHasModules
 	{
 #pragma warning disable 0109 // new is redundant
-		public new const string ModelTypeAlias = "home";
+		public new const string ModelTypeAlias = "hasModules";
 		public new const PublishedItemType ModelItemType = PublishedItemType.Content;
 #pragma warning restore 0109
 
-		public Home(IPublishedContent content)
+		public HasModules(IPublishedContent content)
 			: base(content)
 		{ }
 
@@ -40,7 +48,7 @@ namespace Umbraco.Web.PublishedContentModels
 		}
 #pragma warning restore 0109
 
-		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<Home, TValue>> selector)
+		public static PublishedPropertyType GetModelPropertyType<TValue>(Expression<Func<HasModules, TValue>> selector)
 		{
 			return PublishedContentModelUtility.GetModelPropertyType(GetModelContentType(), selector);
 		}
@@ -51,34 +59,10 @@ namespace Umbraco.Web.PublishedContentModels
 		[ImplementPropertyType("modules")]
 		public IEnumerable<IPublishedContent> Modules
 		{
-			get { return Umbraco.Web.PublishedContentModels.HasModules.GetModules(this); }
+			get { return GetModules(this); }
 		}
 
-		///<summary>
-		/// Image
-		///</summary>
-		[ImplementPropertyType("textMediaImage")]
-		public IPublishedContent TextMediaImage
-		{
-			get { return Umbraco.Web.PublishedContentModels.HasTextAndMedia.GetTextMediaImage(this); }
-		}
-
-		///<summary>
-		/// Summary
-		///</summary>
-		[ImplementPropertyType("textMediaSummary")]
-		public string TextMediaSummary
-		{
-			get { return Umbraco.Web.PublishedContentModels.HasTextAndMedia.GetTextMediaSummary(this); }
-		}
-
-		///<summary>
-		/// Title
-		///</summary>
-		[ImplementPropertyType("textMediaTitle")]
-		public string TextMediaTitle
-		{
-			get { return Umbraco.Web.PublishedContentModels.HasTextAndMedia.GetTextMediaTitle(this); }
-		}
+		/// <summary>Static getter for Content Modules</summary>
+		public static IEnumerable<IPublishedContent> GetModules(IHasModules that) { return that.GetPropertyValue<IEnumerable<IPublishedContent>>("modules"); }
 	}
 }
