@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBran.ContentModule", "src\MBran.ContentModule\MBran.ContentModule.csproj", "{70E2DFA6-533A-4C3D-BF5F-C06BDA1B6957}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBran.ContentModule.Web.Test", "src\MBran.ContentModule.Web.Test\MBran.ContentModule.Web.Test.csproj", "{F970992A-F72B-428C-BFAE-7260B942BA39}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{70E2DFA6-533A-4C3D-BF5F-C06BDA1B6957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70E2DFA6-533A-4C3D-BF5F-C06BDA1B6957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70E2DFA6-533A-4C3D-BF5F-C06BDA1B6957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70E2DFA6-533A-4C3D-BF5F-C06BDA1B6957}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F970992A-F72B-428C-BFAE-7260B942BA39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F970992A-F72B-428C-BFAE-7260B942BA39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F970992A-F72B-428C-BFAE-7260B942BA39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F970992A-F72B-428C-BFAE-7260B942BA39}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {903C6952-D2AB-4363-BA1F-61FB7328CAF9}
+	EndGlobalSection
+EndGlobal
