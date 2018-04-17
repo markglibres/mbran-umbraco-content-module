@@ -307,3 +307,4 @@ __pycache__/
 !**/App_Data/[Pp]ackages/
 !**/[Uu]mbraco/[Dd]eveloper/[Pp]ackages
 !**/App_Data/Umbraco.sdf
+!**/App_Data/Umbraco-ContentsOnly.sdf
