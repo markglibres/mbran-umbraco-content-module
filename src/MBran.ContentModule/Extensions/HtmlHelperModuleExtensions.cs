@@ -1,0 +1,50 @@
+﻿using System.Web.Mvc;
+using System.Web.Mvc.Html;
+using System.Web.Routing;
+using MBran.ContentModule.Constants;
+using MBran.ContentModule.Helpers;
+using MBran.Core.Extensions;
+using Umbraco.Core.Models;
+
+namespace MBran.ContentModule.Extensions
+{
+    public static class HtmlHelperModuleExtensions
+    {
+        public static MvcHtmlString Module(this HtmlHelper helper, IPublishedContent model,
+            RouteValueDictionary routeValues = null)
+        {
+            return helper.Module(model.GetDocumentTypeAlias(), string.Empty, model, routeValues,
+                model.GetType().AssemblyQualifiedName);
+        }
+
+        private static MvcHtmlString Module(this HtmlHelper helper, string docType,
+            string viewPath, object model,
+            RouteValueDictionary routeValues = null,
+            string contentModuleFullname = null)
+        {
+            var controllerName = ModuleViewHelper.Instance.GetCustomControllerName(docType);
+            var options = CreateRouteValues(docType, viewPath, model, routeValues, contentModuleFullname);
+
+            return helper.Action(ModuleViewHelper.Instance.GetActionName(docType), controllerName, options);
+        }
+
+        private static RouteValueDictionary CreateRouteValues(string docType,
+            string viewPath, object model,
+            RouteValueDictionary routeValues = null,
+            string componentFullname = null)
+        {
+            var options = routeValues ?? new RouteValueDictionary();
+            options.Remove(RouteDataConstants.Model.Request);
+            options.Remove(RouteDataConstants.Controller.ViewPath);
+            options.Remove(RouteDataConstants.Model.Fullname);
+            options.Remove(RouteDataConstants.Module.Current);
+
+            options.Add(RouteDataConstants.Module.Current, docType);
+            options.Add(RouteDataConstants.Model.Request, model);
+            options.Add(RouteDataConstants.Controller.ViewPath, viewPath);
+            options.Add(RouteDataConstants.Model.Fullname, componentFullname);
+
+            return options;
+        }
+    }
+}

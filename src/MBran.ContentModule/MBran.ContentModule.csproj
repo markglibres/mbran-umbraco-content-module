@@ -213,10 +213,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\RouteDataConstants.cs" />
-    <Compile Include="Controller\ContentModuleController.cs" />
-    <Compile Include="Controller\IContentModule.cs" />
-    <Compile Include="Extensions\HtmlHelperComponentExtensions.cs" />
-    <Compile Include="Helpers\ContentModuleViewHelper.cs" />
+    <Compile Include="Controller\BaseContentModuleController.cs" />
+    <Compile Include="Controller\CustomModuleController.cs" />
+    <Compile Include="Controller\DefaultModuleController.cs" />
+    <Compile Include="Controller\IRenderModule.cs" />
+    <Compile Include="Controller\IModuleController.cs" />
+    <Compile Include="Controller\ModuleController.cs" />
+    <Compile Include="Extensions\HtmlHelperModuleExtensions.cs" />
+    <Compile Include="Helpers\ModuleViewHelper.cs" />
+    <Compile Include="Models\IModuleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

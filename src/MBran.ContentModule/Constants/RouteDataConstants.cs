@@ -8,11 +8,23 @@ namespace MBran.ContentModule.Constants
 {
     public static class RouteDataConstants
     {
-        public static string ModelKey = "contentModuleModel";
-        public static string ViewPathKey = "contentModuleViewPath";
-        public static string ControllerKey = "contentModuleController";
-        public static string ActionKey = "contentModuleAction";
-        public static string ModelFullnameKey = "contentModuleModelFullname";
-        public static string ModuleNameKey = "contentModuleName";
+        public static class Module
+        {
+            public const string Current = "currentModule";
+        }
+
+        public static class Model
+        {
+            public const string Request = "contentModuleRequestModel";
+            public const string Fullname = "contentModuleModelFullname";
+        }
+
+        public static class Controller
+        {
+            public const string Name = "contentModuleController";
+            public const string ViewPath = "contentModuleViewPath";
+            public const string Action = "contentModuleAction";
+        }
+        
     }
 }
