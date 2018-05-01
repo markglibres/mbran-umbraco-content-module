@@ -17,14 +17,15 @@ namespace MBran.ContentModule.Helpers
 
         public static ModuleViewHelper Instance => Helper.Value;
 
-        public string GetDefaultControllerName(string documentType)
+        public string GetDefaultControllerName()
         {
-            var cacheName = string.Join("_", GetType().FullName, nameof(GetDefaultControllerName), documentType);
+            var cacheName = string.Join("_", GetType().FullName, nameof(GetDefaultControllerName));
             return (string)ApplicationContext.Current
                 .ApplicationCache
                 .RuntimeCache
                 .GetCacheItem(cacheName, () => AppDomain.CurrentDomain
-                    .FindImplementation(typeof(DefaultModuleController).FullName)?.Name);
+                    .FindImplementation(typeof(ModulesController).FullName)
+                    ?.Name.Replace("Controller", string.Empty));
         }
 
         public string GetCustomControllerName(string documentType)
@@ -38,9 +39,10 @@ namespace MBran.ContentModule.Helpers
                 {
                     var docTypeController = documentType + "Controller";
                     return AppDomain.CurrentDomain
-                        .FindImplementations<CustomModuleController>()
+                        .FindImplementations<ModulesController>()
                         .FirstOrDefault(model =>
-                            model.Name.Equals(docTypeController, StringComparison.InvariantCultureIgnoreCase))?.Name;
+                            model.Name.Equals(docTypeController, StringComparison.InvariantCultureIgnoreCase))
+                            ?.Name.Replace("Controller", string.Empty);
                 });
         }
 

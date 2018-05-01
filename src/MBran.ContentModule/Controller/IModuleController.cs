@@ -10,7 +10,8 @@ namespace MBran.ContentModule.Controller
         string GetView(string view = null);
         string GetModuleName();
         IEnumerable<string> GetViewPathLocations();
-        IPublishedContent GetContent();
+        IPublishedContent PublishedContent { get; }
         Type GetModelType();
+        PartialViewResult Index();
     }
 }

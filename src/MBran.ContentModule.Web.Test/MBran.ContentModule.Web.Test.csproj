@@ -367,6 +367,12 @@
   <ItemGroup>
     <Folder Include="Views\Components\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MBran.ContentModule\MBran.ContentModule.csproj">
+      <Project>{70e2dfa6-533a-4c3d-bf5f-c06bda1b6957}</Project>
+      <Name>MBran.ContentModule</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -404,7 +410,8 @@
   <Import Project="..\..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <Import Project="..\..\packages\UmbracoCms.7.7.7\build\UmbracoCms.targets" Condition="Exists('..\..\packages\UmbracoCms.7.7.7\build\UmbracoCms.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /s /y $(SolutionDir)src\MBran.ContentModule\App_Plugins $(ProjectDir)App_Plugins</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

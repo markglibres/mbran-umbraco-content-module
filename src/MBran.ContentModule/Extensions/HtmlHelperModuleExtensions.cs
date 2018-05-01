@@ -2,6 +2,7 @@
 using System.Web.Mvc.Html;
 using System.Web.Routing;
 using MBran.ContentModule.Constants;
+using MBran.ContentModule.Controller;
 using MBran.ContentModule.Helpers;
 using MBran.Core.Extensions;
 using Umbraco.Core.Models;
@@ -17,15 +18,29 @@ namespace MBran.ContentModule.Extensions
                 model.GetType().AssemblyQualifiedName);
         }
 
+        public static MvcHtmlString Module(this HtmlHelper helper, IPublishedContent model, 
+            string action,
+            RouteValueDictionary routeValues = null)
+        {
+            return helper.Module(model.GetDocumentTypeAlias(), string.Empty, model, routeValues,
+                model.GetType().AssemblyQualifiedName, action);
+        }
+
         private static MvcHtmlString Module(this HtmlHelper helper, string docType,
             string viewPath, object model,
             RouteValueDictionary routeValues = null,
-            string contentModuleFullname = null)
+            string contentModuleFullname = null, string actionName = null)
         {
             var controllerName = ModuleViewHelper.Instance.GetCustomControllerName(docType);
-            var options = CreateRouteValues(docType, viewPath, model, routeValues, contentModuleFullname);
+            if (string.IsNullOrWhiteSpace(controllerName))
+            {
+                controllerName = ModuleViewHelper.Instance.GetDefaultControllerName();
+            }
 
-            return helper.Action(ModuleViewHelper.Instance.GetActionName(docType), controllerName, options);
+            var options = CreateRouteValues(docType, viewPath, model, routeValues, contentModuleFullname);
+            var action = actionName ?? nameof(IModuleController.Index);
+
+            return helper.Action(action, controllerName, options);
         }
 
         private static RouteValueDictionary CreateRouteValues(string docType,
