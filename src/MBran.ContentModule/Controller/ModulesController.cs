@@ -144,7 +144,20 @@ namespace MBran.ContentModule.Controller
         public virtual PartialViewResult Index()
         {
             SetControllerAction(GetModuleName());
-            return PartialView(GetView(), PublishedContent.As(GetModelType()));
+            return PartialView(GetView(), GetStronglyTypedModel());
+        }
+
+        protected object GetStronglyTypedModel()
+        {
+            var modelType = GetModelType();
+            var model = PublishedContent.As(modelType);
+            IModuleModel module;
+            if ((module = model as IModuleModel) == null)
+            {
+                return model;
+            }
+            module.Content = PublishedContent;
+            return module;
         }
     }
 }
