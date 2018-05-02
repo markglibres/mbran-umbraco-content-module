@@ -16,11 +16,17 @@ namespace MBran.ContentModule.Controller
 {
     public class ModulesController : SurfaceController, IModuleController
     {
-        public IPublishedContent PublishedContent =>
+        protected IPublishedContent PublishedContent =>
             ControllerContext.RouteData.Values[RouteDataConstants.Model.Request] as IPublishedContent
             ?? UmbracoContext.Current.PublishedContentRequest.PublishedContent;
 
-        public Type GetModelType()
+        public virtual PartialViewResult Index()
+        {
+            SetControllerAction(GetModuleName());
+            return PartialView(GetView(), GetStronglyTypedModel());
+        }
+
+        private Type GetModelType()
         {
             var cacheName = string.Join("_", GetType().FullName, nameof(GetModelType),
                 GetModuleName(), CurrentPage.GetDocumentTypeAlias(), GetContentFullname());
@@ -28,10 +34,10 @@ namespace MBran.ContentModule.Controller
             return (Type) ApplicationContext.Current
                 .ApplicationCache
                 .RuntimeCache
-                .GetCacheItem(cacheName, () => GetPocoModelType() ?? GetPublishedContentType() ?? GetPassedModelType() );
+                .GetCacheItem(cacheName, () => GetPocoModelType() ?? GetPublishedContentType() ?? GetPassedModelType());
         }
 
-        public string GetModuleName()
+        protected string GetModuleName()
         {
             var moduleName = GetName();
             return nameof(ModulesController).Replace("Controller", string.Empty)
@@ -40,7 +46,7 @@ namespace MBran.ContentModule.Controller
                 : moduleName;
         }
 
-        public string GetView(string view = null)
+        private string GetView(string view = null)
         {
             var viewPath = view ?? GetViewPath().ToSafeAlias();
             var moduleName = GetModuleName();
@@ -63,7 +69,7 @@ namespace MBran.ContentModule.Controller
                 });
         }
 
-        public virtual IEnumerable<string> GetViewPathLocations()
+        protected virtual IEnumerable<string> GetViewPathLocations()
         {
             var moduleName = GetModuleName();
             var docType = CurrentPage.GetDocumentTypeAlias();
@@ -105,46 +111,40 @@ namespace MBran.ContentModule.Controller
                     type.Name.Equals(GetModuleName(), StringComparison.InvariantCultureIgnoreCase));
         }
 
-        public void SetExecutingModule(string module)
+        protected void SetExecutingModule(string module)
         {
             ViewData[ViewDataConstants.Module.Current] = module;
         }
 
-        public string GetExecutingModule()
+        protected string GetExecutingModule()
         {
             return RouteData.Values[RouteDataConstants.Module.Current] as string;
         }
 
-        public string GetName()
+        protected string GetName()
         {
             return GetType().Name.Replace("Controller", string.Empty);
         }
 
-        public string GetViewPath()
+        protected string GetViewPath()
         {
             return RouteData.Values[RouteDataConstants.Controller.ViewPath] as string;
         }
 
-        public void SetControllerAction(string action)
+        protected void SetControllerAction(string action)
         {
             RouteData.Values[RouteDataConstants.Controller.Action] = action;
         }
 
-        public string GetControllerAction()
+        protected string GetControllerAction()
         {
             return RouteData.Values[RouteDataConstants.Controller.Action] as string;
         }
 
 
-        public string GetContentFullname()
+        protected string GetContentFullname()
         {
             return RouteData.Values[RouteDataConstants.Model.Fullname] as string;
-        }
-
-        public virtual PartialViewResult Index()
-        {
-            SetControllerAction(GetModuleName());
-            return PartialView(GetView(), GetStronglyTypedModel());
         }
 
         protected object GetStronglyTypedModel()
@@ -153,9 +153,7 @@ namespace MBran.ContentModule.Controller
             var model = PublishedContent.As(modelType);
             IModuleModel module;
             if ((module = model as IModuleModel) == null)
-            {
                 return model;
-            }
             module.Content = PublishedContent;
             return module;
         }
