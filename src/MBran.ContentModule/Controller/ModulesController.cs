@@ -28,7 +28,7 @@ namespace MBran.ContentModule.Controller
             return (Type) ApplicationContext.Current
                 .ApplicationCache
                 .RuntimeCache
-                .GetCacheItem(cacheName, () => GetPocoModelType() ?? GetPassedModelType() ?? GetPublishedContentType());
+                .GetCacheItem(cacheName, () => GetPocoModelType() ?? GetPublishedContentType() ?? GetPassedModelType() );
         }
 
         public string GetModuleName()
@@ -70,8 +70,8 @@ namespace MBran.ContentModule.Controller
 
             return new List<string>
             {
-                $"~/Views/{docType}/{moduleName}/{moduleName}.cshtml",
-                $"~/Views/Modules/{moduleName}/{moduleName}.cshtml"
+                $"~/Views/{docType}/{moduleName}.cshtml",
+                $"~/Views/{moduleName}/{moduleName}.cshtml"
             };
         }
 
