@@ -217,6 +217,7 @@
     <Compile Include="Controller\IModuleController.cs" />
     <Compile Include="Controller\ModulesController.cs" />
     <Compile Include="Extensions\HtmlHelperModuleExtensions.cs" />
+    <Compile Include="Extensions\ModulesControllerExtensions.cs" />
     <Compile Include="Helpers\ModuleViewHelper.cs" />
     <Compile Include="Models\IModuleModel.cs" />
     <Compile Include="Models\ModuleModel.cs" />

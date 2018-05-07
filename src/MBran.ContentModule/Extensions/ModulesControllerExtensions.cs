@@ -1,5 +1,10 @@
-﻿using MBran.ContentModule.Constants;
+﻿using System;
+using System.Linq;
+using MBran.ContentModule.Constants;
 using MBran.ContentModule.Controller;
+using MBran.ContentModule.Models;
+using MBran.Core.Extensions;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace MBran.ContentModule.Extensions
 {
@@ -40,5 +45,36 @@ namespace MBran.ContentModule.Extensions
         {
             return controller.RouteData.Values[RouteDataConstants.Model.Fullname] as string;
         }
+
+        public static string GetModuleName(this ModulesController controller)
+        {
+            var moduleName = controller.GetName();
+            return nameof(ModulesController).Replace("Controller", string.Empty)
+                .Equals(moduleName, StringComparison.InvariantCultureIgnoreCase)
+                ? controller.GetExecutingModule()
+                : moduleName;
+        }
+
+        public static Type GetPassedModelType(this ModulesController controller)
+        {
+            var modelTypeQualifiedName = controller.GetContentFullname();
+            return string.IsNullOrWhiteSpace(modelTypeQualifiedName) ? null : Type.GetType(modelTypeQualifiedName);
+        }
+
+        public static Type GetPublishedContentType(this ModulesController controller)
+        {
+            return AppDomain.CurrentDomain.FindImplementations<PublishedContentModel>()
+                .FirstOrDefault(type =>
+                    type.Name.Equals(controller.GetModuleName(), StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        public static Type GetPocoModelType(this ModulesController controller)
+        {
+            return AppDomain.CurrentDomain.FindImplementations<IModuleModel>()
+                .FirstOrDefault(type =>
+                    type.Name.Equals(controller.GetModuleName(), StringComparison.InvariantCultureIgnoreCase));
+        }
+
+
     }
 }

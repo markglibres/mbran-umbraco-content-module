@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using MBran.ContentModule.Constants;
 using MBran.ContentModule.Extensions;
@@ -9,7 +8,6 @@ using MBran.Core.Extensions;
 using Our.Umbraco.Ditto;
 using Umbraco.Core;
 using Umbraco.Core.Models;
-using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web;
 using Umbraco.Web.Mvc;
 
@@ -23,22 +21,14 @@ namespace MBran.ContentModule.Controller
 
         public virtual PartialViewResult Index()
         {
-            this.SetControllerAction(GetModuleName());
+            this.SetControllerAction(this.GetModuleName());
             return PartialView(GetView(), GetStronglyTypedModel());
         }
 
-        protected string GetModuleName()
-        {
-            var moduleName = this.GetName();
-            return nameof(ModulesController).Replace("Controller", string.Empty)
-                .Equals(moduleName, StringComparison.InvariantCultureIgnoreCase)
-                ? this.GetExecutingModule()
-                : moduleName;
-        }
 
         protected virtual IEnumerable<string> GetViewPathLocations()
         {
-            var moduleName = GetModuleName();
+            var moduleName = this.GetModuleName();
             var docType = CurrentPage.GetDocumentTypeAlias();
 
             return new List<string>
@@ -50,7 +40,7 @@ namespace MBran.ContentModule.Controller
 
         protected override PartialViewResult PartialView(string viewName, object model)
         {
-            var moduleName = GetModuleName();
+            var moduleName = this.GetModuleName();
             this.SetExecutingModule(moduleName);
 
             var viewPath = GetView(viewName);
@@ -61,19 +51,20 @@ namespace MBran.ContentModule.Controller
         private Type GetModelType()
         {
             var cacheName = string.Join("_", GetType().FullName, nameof(GetModelType),
-                GetModuleName(), CurrentPage.GetDocumentTypeAlias(), this.GetContentFullname());
+                this.GetModuleName(), CurrentPage.GetDocumentTypeAlias(), this.GetContentFullname());
 
             return (Type) ApplicationContext.Current
                 .ApplicationCache
                 .RuntimeCache
-                .GetCacheItem(cacheName, () => GetPocoModelType() ?? GetPublishedContentType() ?? GetPassedModelType());
+                .GetCacheItem(cacheName,
+                    () => this.GetPocoModelType() ?? this.GetPublishedContentType() ?? this.GetPassedModelType());
         }
 
 
         private string GetView(string view = null)
         {
             var viewPath = view ?? this.GetViewPath().ToSafeAlias();
-            var moduleName = GetModuleName();
+            var moduleName = this.GetModuleName();
             var cacheName = string.Join("_", GetType().FullName, nameof(GetView),
                 moduleName, CurrentPage.GetDocumentTypeAlias(), viewPath);
 
@@ -91,27 +82,6 @@ namespace MBran.ContentModule.Controller
 
                     return string.Empty;
                 });
-        }
-
-
-        private Type GetPassedModelType()
-        {
-            var modelTypeQualifiedName = this.GetContentFullname();
-            return string.IsNullOrWhiteSpace(modelTypeQualifiedName) ? null : Type.GetType(modelTypeQualifiedName);
-        }
-
-        private Type GetPublishedContentType()
-        {
-            return AppDomain.CurrentDomain.FindImplementations<PublishedContentModel>()
-                .FirstOrDefault(type =>
-                    type.Name.Equals(GetModuleName(), StringComparison.InvariantCultureIgnoreCase));
-        }
-
-        private Type GetPocoModelType()
-        {
-            return AppDomain.CurrentDomain.FindImplementations<IModuleModel>()
-                .FirstOrDefault(type =>
-                    type.Name.Equals(GetModuleName(), StringComparison.InvariantCultureIgnoreCase));
         }
 
         protected object GetStronglyTypedModel()
