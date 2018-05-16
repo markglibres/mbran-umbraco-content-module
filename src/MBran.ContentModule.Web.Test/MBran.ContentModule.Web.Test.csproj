@@ -359,15 +359,14 @@
     <Compile Include="App_Data\Models\SiteConfig.generated.cs" />
     <Compile Include="App_Data\Models\Territory.generated.cs" />
     <Compile Include="Controllers\HeroBannerController.cs" />
+    <Compile Include="Models\HeroBanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.Analyzers.1.0.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Components\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\MBran.ContentModule\MBran.ContentModule.csproj">
       <Project>{70e2dfa6-533a-4c3d-bf5f-c06bda1b6957}</Project>
