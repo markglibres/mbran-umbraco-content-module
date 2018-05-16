@@ -21,8 +21,7 @@ namespace MBran.ContentModule.Controller
 
         public virtual PartialViewResult Index()
         {
-            this.SetControllerAction(this.GetModuleName());
-            return PartialView(GetView(), GetStronglyTypedModel());
+            return ModuleView(GetView(), GetStronglyTypedModel());
         }
 
 
@@ -34,18 +33,25 @@ namespace MBran.ContentModule.Controller
             return new List<string>
             {
                 $"~/Views/{docType}/{moduleName}.cshtml",
-                $"~/Views/{moduleName}/{moduleName}.cshtml"
+                $"~/Views/{moduleName}/{moduleName}.cshtml",
+                $"~/Views/Modules/{moduleName}.cshtml"
             };
         }
 
-        protected override PartialViewResult PartialView(string viewName, object model)
+        public virtual PartialViewResult ModuleView(string viewName, object model)
         {
+            this.SetControllerAction(this.GetModuleName());
             var moduleName = this.GetModuleName();
             this.SetExecutingModule(moduleName);
 
             var viewPath = GetView(viewName);
 
             return base.PartialView(!string.IsNullOrWhiteSpace(viewPath) ? viewPath : moduleName, model);
+        }
+
+        public virtual PartialViewResult ModuleView(object model)
+        {
+            return ModuleView(GetView(), model);
         }
 
         private Type GetModelType()
@@ -71,17 +77,19 @@ namespace MBran.ContentModule.Controller
             return (string) ApplicationContext.Current
                 .ApplicationCache
                 .RuntimeCache
-                .GetCacheItem(cacheName, () =>
-                {
-                    if (!string.IsNullOrWhiteSpace(viewPath) && this.PartialViewExists(viewPath)) return viewPath;
+                .GetCacheItem(cacheName, () => GetViewPath(viewPath));
+        }
 
-                    var viewLocations = GetViewPathLocations();
-                    foreach (var viewLocation in viewLocations)
-                        if (this.PartialViewExists(viewLocation))
-                            return viewLocation;
+        private string GetViewPath(string viewPath)
+        {
+            if (!string.IsNullOrWhiteSpace(viewPath) && this.PartialViewExists(viewPath)) return viewPath;
 
-                    return string.Empty;
-                });
+            var viewLocations = GetViewPathLocations();
+            foreach (var viewLocation in viewLocations)
+                if (this.PartialViewExists(viewLocation))
+                    return viewLocation;
+
+            return string.Empty;
         }
 
         protected object GetStronglyTypedModel()
@@ -94,5 +102,7 @@ namespace MBran.ContentModule.Controller
             module.Content = PublishedContent;
             return module;
         }
+
+
     }
 }

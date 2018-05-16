@@ -358,6 +358,7 @@
     <Compile Include="App_Data\Models\Member.generated.cs" />
     <Compile Include="App_Data\Models\SiteConfig.generated.cs" />
     <Compile Include="App_Data\Models\Territory.generated.cs" />
+    <Compile Include="Controllers\HeroBannerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
