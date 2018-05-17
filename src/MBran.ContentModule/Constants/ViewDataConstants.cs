@@ -5,6 +5,7 @@
         public static class Module
         {
             public const string Current = "currentModule";
+            public const string Parent = "parentModule";
         }
     }
 }

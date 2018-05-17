@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MBran.ContentModule.Constants
+﻿namespace MBran.ContentModule.Constants
 {
     public static class RouteDataConstants
     {
         public static class Module
         {
             public const string Current = "currentModule";
+            public const string Parent = "parentModule";
         }
 
         public static class Model
@@ -25,6 +20,5 @@ namespace MBran.ContentModule.Constants
             public const string ViewPath = "contentModuleViewPath";
             public const string Action = "contentModuleAction";
         }
-        
     }
 }

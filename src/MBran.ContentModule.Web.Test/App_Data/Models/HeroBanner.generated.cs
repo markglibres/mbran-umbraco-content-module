@@ -46,6 +46,15 @@ namespace Umbraco.Web.PublishedContentModels
 		}
 
 		///<summary>
+		/// Modules
+		///</summary>
+		[ImplementPropertyType("heroModules")]
+		public IEnumerable<IPublishedContent> HeroModules
+		{
+			get { return this.GetPropertyValue<IEnumerable<IPublishedContent>>("heroModules"); }
+		}
+
+		///<summary>
 		/// Link To
 		///</summary>
 		[ImplementPropertyType("link")]

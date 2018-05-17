@@ -2,7 +2,7 @@
 
 namespace MBran.ContentModule.Web.Test.Models
 {
-    public class HeroBanner : ModuleModel
+    public class HeroBanner1 : ModuleModel
     {
         public string TextMediaTitle { get; set; }
     }

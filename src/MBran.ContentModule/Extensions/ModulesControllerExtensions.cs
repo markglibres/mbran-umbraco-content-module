@@ -13,6 +13,7 @@ namespace MBran.ContentModule.Extensions
         public static void SetExecutingModule(this ModulesController controller, string module)
         {
             controller.ViewData[ViewDataConstants.Module.Current] = module;
+            controller.ViewData[ViewDataConstants.Module.Parent] = controller.GetParentModule();
         }
 
         public static string GetExecutingModule(this ModulesController controller)
@@ -75,6 +76,10 @@ namespace MBran.ContentModule.Extensions
                     type.Name.Equals(controller.GetModuleName(), StringComparison.InvariantCultureIgnoreCase));
         }
 
+        public static string GetParentModule(this ModulesController controller)
+        {
+            return controller.RouteData.Values[RouteDataConstants.Module.Parent] as string;
+        }
 
     }
 }

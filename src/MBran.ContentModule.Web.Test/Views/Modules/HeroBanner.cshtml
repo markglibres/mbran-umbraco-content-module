@@ -1,6 +1,13 @@
-﻿@model MBran.ContentModule.Web.Test.Models.HeroBanner
+﻿@*@model MBran.ContentModule.Web.Test.Models.HeroBanner*@
 @*or*@
-@*@model HeroBanner*@
+@using MBran.ContentModule.Extensions
+@model HeroBanner
 
 <h1>Hero</h1>
 <div>@Model.TextMediaTitle</div>
+<div>
+    @foreach (var module in Model.HeroModules)
+    {
+        @Html.SubModule(module)
+    }
+</div>

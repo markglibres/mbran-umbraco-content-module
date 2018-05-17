@@ -308,6 +308,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Modules\HeroBanner.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Modules\TextBlock.cshtml" />
+    <Content Include="Views\HeroBanner\TextBlock.cshtml" />
+    <Content Include="Views\Modules\TextAndMedia.cshtml" />
+    <Content Include="Views\TextAndMedia\TextBlock.cshtml" />
+    <Content Include="Views\Home\HeroBanner\TextBlock.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -358,6 +363,8 @@
     <Compile Include="App_Data\Models\Member.generated.cs" />
     <Compile Include="App_Data\Models\SiteConfig.generated.cs" />
     <Compile Include="App_Data\Models\Territory.generated.cs" />
+    <Compile Include="App_Data\Models\TextAndMedia.generated.cs" />
+    <Compile Include="App_Data\Models\TextBlock.generated.cs" />
     <Compile Include="Controllers\HeroBannerController.cs" />
     <Compile Include="Models\HeroBanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

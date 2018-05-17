@@ -14,6 +14,15 @@ namespace MBran.ContentModule.Extensions
         public static MvcHtmlString Module(this HtmlHelper helper, IPublishedContent model,
             RouteValueDictionary routeValues = null)
         {
+            var docType = model.GetDocumentTypeAlias();
+            helper.SetParentModule(docType);
+            return helper.Module(model.GetDocumentTypeAlias(), string.Empty, model, routeValues,
+                model.GetType().AssemblyQualifiedName);
+        }
+
+        public static MvcHtmlString SubModule(this HtmlHelper helper, IPublishedContent model,
+            RouteValueDictionary routeValues = null)
+        {
             return helper.Module(model.GetDocumentTypeAlias(), string.Empty, model, routeValues,
                 model.GetType().AssemblyQualifiedName);
         }
@@ -37,7 +46,8 @@ namespace MBran.ContentModule.Extensions
                 controllerName = ModuleViewHelper.Instance.GetDefaultControllerName();
             }
 
-            var options = CreateRouteValues(docType, viewPath, model, routeValues, contentModuleFullname);
+            var parentModule = helper.GetParentModule();
+            var options = CreateRouteValues(docType, viewPath, model, routeValues, contentModuleFullname, parentModule);
             var action = actionName ?? nameof(IModuleController.Index);
 
             return helper.Action(action, controllerName, options);
@@ -46,20 +56,32 @@ namespace MBran.ContentModule.Extensions
         private static RouteValueDictionary CreateRouteValues(string docType,
             string viewPath, object model,
             RouteValueDictionary routeValues = null,
-            string componentFullname = null)
+            string componentFullname = null, string parentModule = null)
         {
             var options = routeValues ?? new RouteValueDictionary();
             options.Remove(RouteDataConstants.Model.Request);
             options.Remove(RouteDataConstants.Controller.ViewPath);
             options.Remove(RouteDataConstants.Model.Fullname);
             options.Remove(RouteDataConstants.Module.Current);
+            options.Remove(RouteDataConstants.Module.Parent);
 
             options.Add(RouteDataConstants.Module.Current, docType);
+            options.Add(RouteDataConstants.Module.Parent, parentModule);
             options.Add(RouteDataConstants.Model.Request, model);
             options.Add(RouteDataConstants.Controller.ViewPath, viewPath);
             options.Add(RouteDataConstants.Model.Fullname, componentFullname);
 
             return options;
+        }
+
+        private static string GetParentModule(this HtmlHelper helper)
+        {
+            return helper.ViewData[ViewDataConstants.Module.Parent] as string;
+        }
+
+        private static void SetParentModule(this HtmlHelper helper, string docType)
+        {
+            helper.ViewData[ViewDataConstants.Module.Parent] = docType;
         }
     }
 }

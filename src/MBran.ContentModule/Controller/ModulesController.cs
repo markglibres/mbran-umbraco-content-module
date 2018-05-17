@@ -30,8 +30,12 @@ namespace MBran.ContentModule.Controller
             var moduleName = this.GetModuleName();
             var docType = CurrentPage.GetDocumentTypeAlias();
 
+            var parent = this.GetParentModule();
+
             return new List<string>
             {
+                $"~/Views/{docType}/{parent}/{moduleName}.cshtml",
+                $"~/Views/{parent}/{moduleName}.cshtml",
                 $"~/Views/{docType}/{moduleName}.cshtml",
                 $"~/Views/{moduleName}/{moduleName}.cshtml",
                 $"~/Views/Modules/{moduleName}.cshtml"
@@ -43,9 +47,8 @@ namespace MBran.ContentModule.Controller
             this.SetControllerAction(this.GetModuleName());
             var moduleName = this.GetModuleName();
             this.SetExecutingModule(moduleName);
-
+            
             var viewPath = GetView(viewName);
-
             return base.PartialView(!string.IsNullOrWhiteSpace(viewPath) ? viewPath : moduleName, model);
         }
 
@@ -71,8 +74,9 @@ namespace MBran.ContentModule.Controller
         {
             var viewPath = view ?? this.GetViewPath().ToSafeAlias();
             var moduleName = this.GetModuleName();
+            var parentModule = this.GetParentModule();
             var cacheName = string.Join("_", GetType().FullName, nameof(GetView),
-                moduleName, CurrentPage.GetDocumentTypeAlias(), viewPath);
+                moduleName, parentModule, CurrentPage.GetDocumentTypeAlias(), viewPath);
 
             return (string) ApplicationContext.Current
                 .ApplicationCache

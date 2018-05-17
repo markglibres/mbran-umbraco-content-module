@@ -1,5 +1,11 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.Territory>
+@using MBran.ContentModule.Extensions
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
-	Layout = null;
+    Layout = null;
+}
+
+@foreach (var module in Model.Content.Modules)
+{
+    @Html.Module(module)
 }
