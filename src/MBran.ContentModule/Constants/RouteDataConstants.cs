@@ -12,6 +12,7 @@
         {
             public const string Request = "contentModuleRequestModel";
             public const string Fullname = "contentModuleModelFullname";
+            public const string IsStrongType = "contentModuleModelIsStrongType";
         }
 
         public static class Controller

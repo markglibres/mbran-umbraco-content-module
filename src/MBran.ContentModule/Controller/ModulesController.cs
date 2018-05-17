@@ -77,7 +77,7 @@ namespace MBran.ContentModule.Controller
                 .ApplicationCache
                 .RuntimeCache
                 .GetCacheItem(cacheName,
-                    () => this.GetPocoModelType() ?? this.GetPublishedContentType() ?? this.GetPassedModelType());
+                    () => this.GetPassedModelType() ?? this.GetPocoModelType() ?? this.GetPublishedContentType() ?? typeof(IPublishedContent) );
         }
 
 

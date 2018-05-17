@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web.SessionState;
 using MBran.ContentModule.Constants;
 using MBran.ContentModule.Controller;
 using MBran.ContentModule.Models;
@@ -59,6 +60,12 @@ namespace MBran.ContentModule.Extensions
         public static Type GetPassedModelType(this ModulesController controller)
         {
             var modelTypeQualifiedName = controller.GetContentFullname();
+
+            if (!controller.IsPassedModelStronglyTyped())
+            {
+                return null;
+            }
+
             return string.IsNullOrWhiteSpace(modelTypeQualifiedName) ? null : Type.GetType(modelTypeQualifiedName);
         }
 
@@ -79,6 +86,15 @@ namespace MBran.ContentModule.Extensions
         public static string GetParentModule(this ModulesController controller)
         {
             return controller.RouteData.Values[RouteDataConstants.Module.Parent] as string;
+        }
+
+        public static bool IsPassedModelStronglyTyped(this ModulesController controller)
+        {
+            var strongTyped = controller.RouteData.Values[RouteDataConstants.Module.Parent] as string;
+
+            bool.TryParse(strongTyped, out var isStronglyTyped);
+
+            return isStronglyTyped;
         }
 
     }
