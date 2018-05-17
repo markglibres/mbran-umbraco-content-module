@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using MBran.ContentModule.Constants;
 using MBran.ContentModule.Extensions;
@@ -24,6 +25,21 @@ namespace MBran.ContentModule.Controller
             return ModuleView(GetView(), GetStronglyTypedModel());
         }
 
+        public virtual PartialViewResult ModuleView(string viewName, object model)
+        {
+            this.SetControllerAction(this.GetModuleName());
+            var moduleName = this.GetModuleName();
+            this.SetExecutingModule(moduleName);
+
+            var viewPath = GetView(viewName);
+            return PartialView(!string.IsNullOrWhiteSpace(viewPath) ? viewPath : moduleName, model);
+        }
+
+        public virtual PartialViewResult ModuleView(object model)
+        {
+            return ModuleView(GetView(), model);
+        }
+
 
         protected virtual IEnumerable<string> GetViewPathLocations()
         {
@@ -32,29 +48,24 @@ namespace MBran.ContentModule.Controller
 
             var parent = this.GetParentModule();
 
-            return new List<string>
+            var parentLocations = new List<string>
             {
                 $"~/Views/{docType}/{parent}/{moduleName}.cshtml",
-                $"~/Views/{parent}/{moduleName}.cshtml",
+                $"~/Views/{parent}/{moduleName}.cshtml"
+            };
+
+            var defaultLocations = new List<string>
+            {
                 $"~/Views/{docType}/{moduleName}.cshtml",
                 $"~/Views/{moduleName}/{moduleName}.cshtml",
                 $"~/Views/Modules/{moduleName}.cshtml"
             };
-        }
 
-        public virtual PartialViewResult ModuleView(string viewName, object model)
-        {
-            this.SetControllerAction(this.GetModuleName());
-            var moduleName = this.GetModuleName();
-            this.SetExecutingModule(moduleName);
-            
-            var viewPath = GetView(viewName);
-            return base.PartialView(!string.IsNullOrWhiteSpace(viewPath) ? viewPath : moduleName, model);
-        }
+            if (string.IsNullOrWhiteSpace(parent))
+                return defaultLocations;
 
-        public virtual PartialViewResult ModuleView(object model)
-        {
-            return ModuleView(GetView(), model);
+            parentLocations.AddRange(defaultLocations);
+            return parentLocations.Distinct();
         }
 
         private Type GetModelType()
@@ -106,7 +117,5 @@ namespace MBran.ContentModule.Controller
             module.Content = PublishedContent;
             return module;
         }
-
-
     }
 }
