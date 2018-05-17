@@ -11,12 +11,20 @@ namespace MBran.ContentModule.Extensions
 {
     public static class HtmlHelperModuleExtensions
     {
+        public static MvcHtmlString Module<T>(this HtmlHelper helper, RouteValueDictionary routeValues = null)
+            where T: class
+        {
+            var moduleType = typeof(T).Name;
+            helper.SetParentModule(moduleType);
+            return helper.Module(moduleType, string.Empty, null, routeValues,
+                typeof(T).AssemblyQualifiedName);
+        }
         public static MvcHtmlString Module(this HtmlHelper helper, IPublishedContent model,
             RouteValueDictionary routeValues = null)
         {
             var docType = model.GetDocumentTypeAlias();
             helper.SetParentModule(docType);
-            return helper.Module(model.GetDocumentTypeAlias(), string.Empty, model, routeValues,
+            return helper.Module(docType, string.Empty, model, routeValues,
                 model.GetType().AssemblyQualifiedName);
         }
 

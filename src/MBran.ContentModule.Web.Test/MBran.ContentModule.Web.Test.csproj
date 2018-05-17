@@ -313,6 +313,7 @@
     <Content Include="Views\Modules\TextAndMedia.cshtml" />
     <Content Include="Views\TextAndMedia\TextBlock.cshtml" />
     <Content Include="Views\Home\HeroBanner\TextBlock.cshtml" />
+    <Content Include="Views\Modules\HasTextAndMedia.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
