@@ -20,6 +20,7 @@ namespace MBran.ContentModule.Extensions
             return helper.Module(moduleName, string.Empty, null, routeValues,
                 moduleType, null, moduleType);
         }
+
         public static MvcHtmlString Module(this HtmlHelper helper, IPublishedContent model,
             RouteValueDictionary routeValues = null)
         {
@@ -29,11 +30,38 @@ namespace MBran.ContentModule.Extensions
                 model.GetType().AssemblyQualifiedName);
         }
 
+        public static MvcHtmlString Module<T>(this HtmlHelper helper, IPublishedContent model,
+            RouteValueDictionary routeValues = null)
+            where T : class
+        {
+            var docType = model.GetDocumentTypeAlias();
+            var moduleType = typeof(T).AssemblyQualifiedName;
+            var moduleName = typeof(T).Name;
+
+            helper.SetParentModule(docType);
+
+            return helper.Module(moduleName, string.Empty, model, routeValues,
+                moduleType, null, moduleType);
+        }
+
+
         public static MvcHtmlString SubModule(this HtmlHelper helper, IPublishedContent model,
             RouteValueDictionary routeValues = null)
         {
             return helper.Module(model.GetDocumentTypeAlias(), string.Empty, model, routeValues,
                 model.GetType().AssemblyQualifiedName);
+        }
+
+
+        public static MvcHtmlString SubModule<T>(this HtmlHelper helper, IPublishedContent model,
+            RouteValueDictionary routeValues = null)
+            where T : class
+        {
+            var moduleType = typeof(T).AssemblyQualifiedName;
+            var moduleName = typeof(T).Name;
+
+            return helper.Module(moduleName, string.Empty, model, routeValues,
+                moduleType, null, moduleType);
         }
 
         public static MvcHtmlString Module(this HtmlHelper helper, IPublishedContent model, 
@@ -42,6 +70,18 @@ namespace MBran.ContentModule.Extensions
         {
             return helper.Module(model.GetDocumentTypeAlias(), string.Empty, model, routeValues,
                 model.GetType().AssemblyQualifiedName, action);
+        }
+
+        public static MvcHtmlString Module<T>(this HtmlHelper helper, IPublishedContent model,
+            string action,
+            RouteValueDictionary routeValues = null)
+            where T : class
+        {
+            var moduleType = typeof(T).AssemblyQualifiedName;
+            var moduleName = typeof(T).Name;
+
+            return helper.Module(moduleName, string.Empty, model, routeValues,
+                moduleType, action, moduleType);
         }
 
         private static MvcHtmlString Module(this HtmlHelper helper, string docType,
