@@ -139,6 +139,7 @@
       <HintPath>..\..\packages\UmbracoCms.Core.7.7.7\lib\net45\SQLCE4Umbraco.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.1, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\..\packages\UmbracoCms.Core.7.7.7\lib\net45\System.Data.SqlServerCe.dll</HintPath>
@@ -218,6 +219,7 @@
     <Compile Include="Controller\ModulesController.cs" />
     <Compile Include="Extensions\HtmlHelperModuleExtensions.cs" />
     <Compile Include="Extensions\ModulesControllerExtensions.cs" />
+    <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Helpers\ModuleViewHelper.cs" />
     <Compile Include="Models\IModuleModel.cs" />
     <Compile Include="Models\ModuleModel.cs" />

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using MBran.ContentModule.Constants;
 using MBran.ContentModule.Extensions;
+using MBran.ContentModule.Helpers;
 using MBran.ContentModule.Models;
 using MBran.Core.Extensions;
 using Our.Umbraco.Ditto;
@@ -48,17 +49,19 @@ namespace MBran.ContentModule.Controller
 
             var parent = this.GetParentModule();
 
+            var rootPath = ConfigurationHelper.Instance.GetRootPath();
+
             var parentLocations = new List<string>
             {
-                $"~/Views/{docType}/{parent}/{moduleName}.cshtml",
-                $"~/Views/{parent}/{moduleName}.cshtml"
+                $"{rootPath}/{docType}/{parent}/{moduleName}.cshtml",
+                $"{rootPath}/{parent}/{moduleName}.cshtml"
             };
 
             var defaultLocations = new List<string>
             {
-                $"~/Views/{docType}/{moduleName}.cshtml",
-                $"~/Views/{moduleName}/{moduleName}.cshtml",
-                $"~/Views/Modules/{moduleName}.cshtml"
+                $"{rootPath}/{docType}/{moduleName}.cshtml",
+                $"{rootPath}/{moduleName}/{moduleName}.cshtml",
+                $"{rootPath}/Default/{moduleName}.cshtml"
             };
 
             if (string.IsNullOrWhiteSpace(parent))

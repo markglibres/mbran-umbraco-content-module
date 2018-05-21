@@ -306,14 +306,14 @@
     <Content Include="Views\Territory.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Modules\HeroBanner.cshtml" />
+    <Content Include="Views\Partials\Content\Default\HeroBanner.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\Modules\TextBlock.cshtml" />
-    <Content Include="Views\HeroBanner\TextBlock.cshtml" />
-    <Content Include="Views\Modules\TextAndMedia.cshtml" />
-    <Content Include="Views\TextAndMedia\TextBlock.cshtml" />
-    <Content Include="Views\Home\HeroBanner\TextBlock.cshtml" />
-    <Content Include="Views\Modules\HasTextAndMedia.cshtml" />
+    <Content Include="Views\Partials\Content\Default\TextBlock.cshtml" />
+    <Content Include="Views\Partials\Content\HeroBanner\TextBlock.cshtml" />
+    <Content Include="Views\Partials\Content\Default\TextAndMedia.cshtml" />
+    <Content Include="Views\Partials\Content\TextAndMedia\TextBlock.cshtml" />
+    <Content Include="Views\Partials\Content\Home\HeroBanner\TextBlock.cshtml" />
+    <Content Include="Views\Partials\Content\Default\HasTextAndMedia.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
