@@ -14,10 +14,11 @@ namespace MBran.ContentModule.Extensions
         public static MvcHtmlString Module<T>(this HtmlHelper helper, RouteValueDictionary routeValues = null)
             where T: class
         {
-            var moduleType = typeof(T).Name;
-            helper.SetParentModule(moduleType);
-            return helper.Module(moduleType, string.Empty, null, routeValues,
-                typeof(T).AssemblyQualifiedName, null, true);
+            var moduleName = typeof(T).Name;
+            var moduleType = typeof(T).AssemblyQualifiedName;
+            helper.SetParentModule(moduleName);
+            return helper.Module(moduleName, string.Empty, null, routeValues,
+                moduleType, null, moduleType);
         }
         public static MvcHtmlString Module(this HtmlHelper helper, IPublishedContent model,
             RouteValueDictionary routeValues = null)
@@ -47,7 +48,7 @@ namespace MBran.ContentModule.Extensions
             string viewPath, object model,
             RouteValueDictionary routeValues = null,
             string contentModuleFullname = null, string actionName = null,
-            bool isStrongTypeModel = false)
+            string targetType = null)
         {
             var controllerName = ModuleViewHelper.Instance.GetCustomControllerName(docType);
             if (string.IsNullOrWhiteSpace(controllerName))
@@ -57,7 +58,7 @@ namespace MBran.ContentModule.Extensions
 
             var parentModule = helper.GetParentModule();
             var options = CreateRouteValues(docType, viewPath, model, routeValues, 
-                contentModuleFullname, parentModule, isStrongTypeModel);
+                contentModuleFullname, parentModule, targetType);
             var action = actionName ?? nameof(IModuleController.Index);
 
             return helper.Action(action, controllerName, options);
@@ -67,7 +68,7 @@ namespace MBran.ContentModule.Extensions
             string viewPath, object model,
             RouteValueDictionary routeValues = null,
             string componentFullname = null, string parentModule = null,
-            bool isStrongTypeModel = false)
+            string targetType = null)
         {
             var options = routeValues ?? new RouteValueDictionary();
             options.Remove(RouteDataConstants.Model.Request);
@@ -75,14 +76,14 @@ namespace MBran.ContentModule.Extensions
             options.Remove(RouteDataConstants.Model.Fullname);
             options.Remove(RouteDataConstants.Module.Current);
             options.Remove(RouteDataConstants.Module.Parent);
-            options.Remove(RouteDataConstants.Model.IsStrongType);
+            options.Remove(RouteDataConstants.Model.TargetType);
 
             options.Add(RouteDataConstants.Module.Current, docType);
             options.Add(RouteDataConstants.Module.Parent, parentModule);
             options.Add(RouteDataConstants.Model.Request, model);
             options.Add(RouteDataConstants.Controller.ViewPath, viewPath);
             options.Add(RouteDataConstants.Model.Fullname, componentFullname);
-            options.Add(RouteDataConstants.Model.IsStrongType, isStrongTypeModel);
+            options.Add(RouteDataConstants.Model.TargetType, targetType);
 
             return options;
         }

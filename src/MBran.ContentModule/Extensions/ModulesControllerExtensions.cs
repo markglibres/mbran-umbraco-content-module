@@ -48,6 +48,11 @@ namespace MBran.ContentModule.Extensions
             return controller.RouteData.Values[RouteDataConstants.Model.Fullname] as string;
         }
 
+        public static string GetTargetType(this ModulesController controller)
+        {
+            return controller.RouteData.Values[RouteDataConstants.Model.TargetType] as string;
+        }
+
         public static string GetModuleName(this ModulesController controller)
         {
             var moduleName = controller.GetName();
@@ -59,13 +64,7 @@ namespace MBran.ContentModule.Extensions
 
         public static Type GetPassedModelType(this ModulesController controller)
         {
-            var modelTypeQualifiedName = controller.GetContentFullname();
-
-            if (!controller.IsPassedModelStronglyTyped())
-            {
-                return null;
-            }
-
+            var modelTypeQualifiedName = controller.GetTargetType();
             return string.IsNullOrWhiteSpace(modelTypeQualifiedName) ? null : Type.GetType(modelTypeQualifiedName);
         }
 
@@ -86,15 +85,6 @@ namespace MBran.ContentModule.Extensions
         public static string GetParentModule(this ModulesController controller)
         {
             return controller.RouteData.Values[RouteDataConstants.Module.Parent] as string;
-        }
-
-        public static bool IsPassedModelStronglyTyped(this ModulesController controller)
-        {
-            var strongTyped = controller.RouteData.Values[RouteDataConstants.Module.Parent] as string;
-
-            bool.TryParse(strongTyped, out var isStronglyTyped);
-
-            return isStronglyTyped;
         }
 
     }
