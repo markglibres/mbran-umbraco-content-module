@@ -82,7 +82,7 @@
       <HintPath>..\..\packages\Markdown.1.14.7\lib\net45\MarkdownSharp.dll</HintPath>
     </Reference>
     <Reference Include="MBran.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\MBran.Core.0.2.1\lib\net452\MBran.Core.dll</HintPath>
+      <HintPath>..\..\packages\MBran.Core.0.2.2\lib\net452\MBran.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.1559.20655, Culture=neutral">
       <HintPath>..\..\packages\UmbracoCms.Core.7.7.7\lib\net45\Microsoft.ApplicationBlocks.Data.dll</HintPath>
@@ -228,6 +228,8 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="web.config.uninstall.xdt" />
+    <None Include="web.config.install.xdt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
