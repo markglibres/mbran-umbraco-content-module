@@ -10,3 +10,8 @@ Features:
 
 See [Auto-wiring](https://github.com/markglibres/mbran-umbraco-content-module/wiki/Auto-wiring) for more details.
 
+# Umbraco Test web app:
+
+u: me@markglibres.com
+p: admin12345
+
