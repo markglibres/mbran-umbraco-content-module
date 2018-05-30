@@ -1,0 +1,13 @@
+﻿@*@model MBran.ContentModule.Web.Test.Models.HeroBanner*@
+@*or*@
+@using MBran.ContentModule.Extensions
+@model HeroBanner
+
+<h1>Hero on custom view path</h1>
+<div>@Model.TextMediaTitle</div>
+<div>
+    @foreach (var module in Model.HeroModules)
+    {
+        @Html.SubModule(module)
+    }
+</div>

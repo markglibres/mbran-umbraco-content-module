@@ -20,6 +20,7 @@
             public const string Name = "contentModuleController";
             public const string ViewPath = "contentModuleViewPath";
             public const string Action = "contentModuleAction";
+            public const string ViewPathDirectory = "contentModuleViewPathDirectory";
         }
     }
 }

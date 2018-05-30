@@ -50,6 +50,12 @@ namespace MBran.ContentModule.Controller
             var parent = this.GetParentModule();
 
             var rootPath = ConfigurationHelper.Instance.GetRootPath();
+            var customViewPathDir = this.GetViewPathDirectory();
+
+            var customDirectory = new List<string>
+            {
+                $"{customViewPathDir}/{moduleName}.cshtml",
+            };
 
             var parentLocations = new List<string>
             {
@@ -64,11 +70,19 @@ namespace MBran.ContentModule.Controller
                 $"{rootPath}/Default/{moduleName}.cshtml"
             };
 
-            if (string.IsNullOrWhiteSpace(parent))
-                return defaultLocations;
+            var viewLocations = new List<string>();
 
-            parentLocations.AddRange(defaultLocations);
-            return parentLocations.Distinct();
+            if (!string.IsNullOrWhiteSpace(customViewPathDir))
+            {
+                viewLocations.AddRange(customDirectory);
+            }
+            if (!string.IsNullOrWhiteSpace(parent))
+            {
+                parentLocations.AddRange(parentLocations);
+            }
+            viewLocations.AddRange(defaultLocations);
+
+            return viewLocations.Distinct();
         }
 
         private Type GetModelType()

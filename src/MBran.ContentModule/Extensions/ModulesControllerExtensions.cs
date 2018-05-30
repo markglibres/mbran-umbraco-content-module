@@ -32,6 +32,11 @@ namespace MBran.ContentModule.Extensions
             return controller.RouteData.Values[RouteDataConstants.Controller.ViewPath] as string;
         }
 
+        public static string GetViewPathDirectory(this ModulesController controller)
+        {
+            return controller.RouteData.Values[RouteDataConstants.Controller.ViewPathDirectory] as string;
+        }
+
         public static void SetControllerAction(this ModulesController controller, string action)
         {
             controller.RouteData.Values[RouteDataConstants.Controller.Action] = action;

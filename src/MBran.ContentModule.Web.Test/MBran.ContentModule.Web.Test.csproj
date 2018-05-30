@@ -314,6 +314,7 @@
     <Content Include="Views\Partials\Content\TextAndMedia\TextBlock.cshtml" />
     <Content Include="Views\Partials\Content\Home\HeroBanner\TextBlock.cshtml" />
     <Content Include="Views\Partials\Content\Default\HasTextAndMedia.cshtml" />
+    <Content Include="Views\Partials\Custom\HeroBanner.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
