@@ -87,30 +87,46 @@ namespace MBran.ContentModule.Controller
 
         private Type GetModelType()
         {
+#if DEBUG
+           return GetModelTypeFromAssembly();
+#else
             var cacheName = string.Join("_", GetType().FullName, nameof(GetModelType),
                 this.GetModuleName(), CurrentPage.GetDocumentTypeAlias(), this.GetContentFullname());
 
-            return (Type) ApplicationContext.Current
+            return (Type)ApplicationContext.Current
                 .ApplicationCache
                 .RuntimeCache
-                .GetCacheItem(cacheName,
-                    () => this.GetPassedModelType() ?? this.GetPocoModelType() ?? this.GetPublishedContentType() ?? typeof(IPublishedContent) );
+                .GetCacheItem(cacheName, GetModelTypeFromAssembly);
+#endif
         }
 
+        private Type GetModelTypeFromAssembly()
+        {
+            return this.GetPassedModelType() ??
+                   this.GetPocoModelType() ??
+                   this.GetPublishedContentType() ??
+                   typeof(IPublishedContent);
+        }
 
         private string GetView(string view = null)
         {
             var viewPath = view ?? this.GetViewPath().ToSafeAlias();
+#if DEBUG
+            return  GetViewPath(viewPath);
+#else
+            
             var moduleName = this.GetModuleName();
             var parentModule = this.GetParentModule();
             var cacheName = string.Join("_", GetType().FullName, nameof(GetView),
                 moduleName, parentModule, CurrentPage.GetDocumentTypeAlias(), viewPath);
 
-            return (string) ApplicationContext.Current
+            return (string)ApplicationContext.Current
                 .ApplicationCache
                 .RuntimeCache
                 .GetCacheItem(cacheName, () => GetViewPath(viewPath));
+#endif
         }
+
 
         private string GetViewPath(string viewPath)
         {

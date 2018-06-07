@@ -20,15 +20,22 @@ namespace MBran.ContentModule.Helpers
 
         public string GetRootPath()
         {
+#if DEBUG
+            return GetRoothPathFromConfig();
+#else
             var cacheName = string.Join("_", GetType().FullName, nameof(GetRootPath));
 
-            return (string) ApplicationContext.Current.ApplicationCache
+            return (string)ApplicationContext.Current.ApplicationCache
                 .RuntimeCache
-                .GetCacheItem(cacheName, () =>
-                {
-                    var configValue = ConfigurationManager.AppSettings[_rootPathConfigKey];
-                    return string.IsNullOrWhiteSpace(configValue) ? _defaultRootPath : configValue.TrimEnd('/');
-                });
+                .GetCacheItem(cacheName, GetRoothPathFromConfig);
+#endif
+
+        }
+
+        private string GetRoothPathFromConfig()
+        {
+            var configValue = ConfigurationManager.AppSettings[_rootPathConfigKey];
+            return string.IsNullOrWhiteSpace(configValue) ? _defaultRootPath : configValue.TrimEnd('/');
         }
     }
 }

@@ -19,31 +19,48 @@ namespace MBran.ContentModule.Helpers
 
         public string GetDefaultControllerName()
         {
+#if DEBUG
+            return GetDefaultControllerNameFromAssembly();
+#else
             var cacheName = string.Join("_", GetType().FullName, nameof(GetDefaultControllerName));
             return (string)ApplicationContext.Current
                 .ApplicationCache
                 .RuntimeCache
-                .GetCacheItem(cacheName, () => AppDomain.CurrentDomain
-                    .FindImplementation(typeof(ModulesController).FullName)
-                    ?.Name.Replace("Controller", string.Empty));
+                .GetCacheItem(cacheName, GetDefaultControllerNameFromAssembly);
+#endif
+
+        }
+
+        private string GetDefaultControllerNameFromAssembly()
+        {
+            return AppDomain.CurrentDomain
+                .FindImplementation(typeof(ModulesController).FullName)
+                ?.Name.Replace("Controller", string.Empty);
         }
 
         public string GetCustomControllerName(string documentType)
         {
+#if DEBUG
+            return GetCustomControllerNameFromAssembly(documentType);
+#else
             var cacheName = string.Join("_", GetType().FullName, nameof(GetCustomControllerName), documentType);
 
             return (string)ApplicationContext.Current
                 .ApplicationCache
                 .RuntimeCache
-                .GetCacheItem(cacheName, () =>
-                {
-                    var docTypeController = documentType + "Controller";
-                    return AppDomain.CurrentDomain
-                        .FindImplementations<ModulesController>()
-                        .FirstOrDefault(model =>
-                            model.Name.Equals(docTypeController, StringComparison.InvariantCultureIgnoreCase))
-                            ?.Name.Replace("Controller", string.Empty);
-                });
+                .GetCacheItem(cacheName, () => GetCustomControllerNameFromAssembly(documentType));
+#endif
+
+        }
+
+        private string GetCustomControllerNameFromAssembly(string documentType)
+        {
+            var docTypeController = documentType + "Controller";
+            return AppDomain.CurrentDomain
+                .FindImplementations<ModulesController>()
+                .FirstOrDefault(model =>
+                    model.Name.Equals(docTypeController, StringComparison.InvariantCultureIgnoreCase))
+                ?.Name.Replace("Controller", string.Empty);
         }
 
         public string GetActionName(string documentType)
