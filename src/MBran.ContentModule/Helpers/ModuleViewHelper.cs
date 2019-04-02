@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MBran.ContentModule.Controller;
 using MBran.Core.Extensions;
@@ -33,9 +34,26 @@ namespace MBran.ContentModule.Helpers
 
         private string GetDefaultControllerNameFromAssembly()
         {
-            return AppDomain.CurrentDomain
-                .FindImplementation(typeof(ModulesController).FullName)
-                ?.Name.Replace("Controller", string.Empty);
+            var cacheName = string.Join("_", typeof(AssemblyExtensions).FullName, nameof(GetDefaultControllerNameFromAssembly),
+                nameof(Type), typeof(ModulesController));
+
+            var defaultControllerName = (string)ApplicationContext.Current
+                .ApplicationCache
+                .RuntimeCache
+                .GetCacheItem(cacheName, () =>
+                {
+                    return AppDomain.CurrentDomain
+                        .FindImplementations<ModulesController>()
+                        .FirstOrDefault(model => model.IsSubclassOf(typeof(ModulesController))
+                            && model.Name.EndsWith(nameof(ModulesController), StringComparison.InvariantCultureIgnoreCase))?.Name;
+                });
+
+            if (string.IsNullOrWhiteSpace(defaultControllerName)) 
+                defaultControllerName = AppDomain.CurrentDomain
+                    .FindImplementation(typeof(ModulesController).FullName)
+                    ?.Name;
+
+            return defaultControllerName?.Replace("Controller", string.Empty);
         }
 
         public string GetCustomControllerName(string documentType)
