@@ -85,7 +85,7 @@ namespace MBran.ContentModule.Controller
             return viewLocations.Distinct();
         }
 
-        private Type GetModelType()
+        protected virtual Type GetModelType()
         {
 #if DEBUG
            return GetModelTypeFromAssembly();
@@ -100,7 +100,7 @@ namespace MBran.ContentModule.Controller
 #endif
         }
 
-        private Type GetModelTypeFromAssembly()
+        protected virtual Type GetModelTypeFromAssembly()
         {
             return this.GetPassedModelType() ??
                    this.GetPocoModelType() ??
@@ -108,7 +108,7 @@ namespace MBran.ContentModule.Controller
                    typeof(IPublishedContent);
         }
 
-        private string GetView(string view = null)
+        protected virtual string GetView(string view = null)
         {
             var viewPath = view ?? this.GetViewPath().ToSafeAlias();
 #if DEBUG
@@ -128,7 +128,7 @@ namespace MBran.ContentModule.Controller
         }
 
 
-        private string GetViewPath(string viewPath)
+        protected virtual string GetViewPath(string viewPath)
         {
             if (!string.IsNullOrWhiteSpace(viewPath) && this.PartialViewExists(viewPath)) return viewPath;
 
@@ -140,7 +140,7 @@ namespace MBran.ContentModule.Controller
             return string.Empty;
         }
 
-        protected object GetStronglyTypedModel()
+        protected virtual object GetStronglyTypedModel()
         {
             var modelType = GetModelType();
             var model = PublishedContent.As(modelType);
