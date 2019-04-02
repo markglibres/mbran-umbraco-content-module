@@ -28,8 +28,8 @@ namespace MBran.ContentModule.Controller
 
         public virtual PartialViewResult ModuleView(string viewName, object model)
         {
-            this.SetControllerAction(this.GetModuleName());
-            var moduleName = this.GetModuleName();
+            this.SetControllerAction(GetContentModuleName());
+            var moduleName = GetContentModuleName();
             this.SetExecutingModule(moduleName);
 
             var viewPath = GetView(viewName);
@@ -44,7 +44,7 @@ namespace MBran.ContentModule.Controller
 
         protected virtual IEnumerable<string> GetViewPathLocations()
         {
-            var moduleName = this.GetModuleName();
+            var moduleName = GetContentModuleName();
             var docType = CurrentPage.GetDocumentTypeAlias();
 
             var parent = this.GetParentModule();
@@ -91,7 +91,7 @@ namespace MBran.ContentModule.Controller
            return GetModelTypeFromAssembly();
 #else
             var cacheName = string.Join("_", GetType().FullName, nameof(GetModelType),
-                this.GetModuleName(), CurrentPage.GetDocumentTypeAlias(), this.GetContentFullname());
+                GetContentModuleName(), CurrentPage.GetDocumentTypeAlias(), this.GetContentFullname());
 
             return (Type)ApplicationContext.Current
                 .ApplicationCache
@@ -115,7 +115,7 @@ namespace MBran.ContentModule.Controller
             return  GetViewPath(viewPath);
 #else
             
-            var moduleName = this.GetModuleName();
+            var moduleName = GetContentModuleName();
             var parentModule = this.GetParentModule();
             var cacheName = string.Join("_", GetType().FullName, nameof(GetView),
                 moduleName, parentModule, CurrentPage.GetDocumentTypeAlias(), viewPath);
@@ -149,6 +149,11 @@ namespace MBran.ContentModule.Controller
                 return model;
             module.Content = PublishedContent;
             return module;
+        }
+
+        protected virtual string GetContentModuleName()
+        {
+            return this.GetModuleName();
         }
     }
 }
